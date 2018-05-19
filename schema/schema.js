@@ -28,7 +28,8 @@ const UserType = new GraphQLObjectType({
       // resolve function takes us from one place to another place
       // in the graph (i.e. userX -> companyY) (like the edges between them)
       resolve(parentValue, args) {
-        return axios.get(`http://localhost:3000/companies/${parentValue.companyId}`).then(res => res.data);
+        return axios.get(`http://localhost:3000/companies/${parentValue.companyId}`)
+        .then(res => res.data);
       }
     }
   }
@@ -41,7 +42,16 @@ const RootQuery = new GraphQLObjectType({
       type: UserType,
       args: { id: { type: GraphQLString } },
       resolve(parentValue, args) {
-        return axios.get(`http://localhost:3000/users/${args.id}`).then(res => res.data);
+        return axios.get(`http://localhost:3000/users/${args.id}`)
+        .then(res => res.data);
+      }
+    },
+    company: {
+      type: CompanyType,
+      args: { id: { type: GraphQLString } },
+      resolve(parentValue, args) {
+        return axios.get(`http://localhost:3000/companies/${args.id}`)
+        .then(res => res.data);
       }
     }
   }
